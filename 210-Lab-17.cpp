@@ -13,6 +13,7 @@ struct Node {
 };
 
 int menu();
+int choice;
 void output(Node *);
 void addFront(Node *, int);
 void addEnd(Node *, int);
@@ -24,7 +25,7 @@ void deleteList(Node *);
 int main() {
     Node *head = nullptr;
     int count = 0;
-    int choice = -1;
+    int menuNum = -1;
 
     // create a linked list of size SIZE with random numbers 0-99
     for (int i = 0; i < SIZE; i++) {
@@ -45,10 +46,10 @@ int main() {
     }
     output(head);
     
-    while(choice != 0){
+    while(menuNum != 0){
 
-        choice = menu();
-        switch(choice){
+        menuNum = menu();
+        switch(menuNum){
             case 1: {
                 int val;
                 cout << "Enter a value to add to the front of the list: ";
@@ -78,7 +79,7 @@ int main() {
                 count = 1;
                 int afterVal, newVal;
                 cout << "Enter a value to insert after: ";
-                cin >> afterVal;
+                cin >> choice();
                  while (current) {
                 cout << "[" << count++ << "] " << current->value << endl;
                 current = current->next;
@@ -221,7 +222,7 @@ void insertNode(Node * head, int afterVal, int newVal) {
         }
     //at this point, insert a node between prev and current
     Node * newnode = new Node;
-    newnode->value = 10000;
+    newnode->value = newVal;
     newnode->next = current;
     prev->next = newnode;
     
@@ -237,3 +238,18 @@ void deleteList(Node * head) {
     head = nullptr;
 }
 
+int choice(){
+    int entry;
+    bool valid = false;
+    while (!valid){
+        cout << "Enter your choice: ";
+        cin >> entry;
+        if (!cin.fail())
+            valid = true;
+        else
+            cin.clear();
+            cin.ignore(1000, '\n');
+            cout << "Invalid choice. Please try again." << endl;
+    }
+    return entry;
+}
