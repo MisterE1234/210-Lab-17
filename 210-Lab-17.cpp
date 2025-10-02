@@ -27,6 +27,7 @@ void deleteList(Node * head);
 
 
 int main() {
+    int count = 7;
     bool valid = false;
     const int SIZE = 7; // initial size of the linked list
     Node *head = nullptr;
@@ -66,6 +67,7 @@ int main() {
                 val = choice();
                 addFront(head, val);
                 output(head);
+                count++;
                 break;
             }
             case 2: {
@@ -75,14 +77,24 @@ int main() {
                 val = choice();
                 addEnd(head, val);
                 output(head);
+                count++;
                 break;
             }
             case 3: {
                 // option to delete a node from the list
                 int val;
-                cout << "Enter a value to delete from the list: ";
-                val = choice();
+                cout << "Enter a position to delete from the list: ";
+                while (!valid){
+                    val = choice();
+                    if (val > 0 && val <= count )
+                        valid = true;
+                    else
+                        cout << "Invalid choice. Please try again." << endl;
+                }
+                valid = false;
+
                 deleteNode(head, val);
+                count--;
                 output(head);
                 break;
             }
@@ -99,6 +111,8 @@ int main() {
                     else
                         cout << "Invalid choice. Please try again." << endl;
                 }
+                valid = false;
+                cout << "The current list is:\n";
                 
                  while (current) {
                 cout << "[" << count++ << "] " << current->value << endl;
@@ -108,6 +122,7 @@ int main() {
                 cout << "Enter a new value to insert: ";
                 newVal = choice();
                 insertNode(head, afterVal, newVal);
+                count++;
                 output(head);
                 break;
             }
@@ -116,6 +131,7 @@ int main() {
                 deleteList(head);
                 head = nullptr; // reset head to nullptr after deletion
                 output(head);
+                count = 0;
                 break;
             }
 
@@ -213,38 +229,27 @@ void addEnd(Node * hd, int val) {
     current->next = newNode; // link the last node to the new node
 }
 
-// Function to delete a node with a specific value from the list
+// Function to delete a node with a positional value from the list
 // requires a pointer to the head node and the value to delete
 // returns nothing
 void deleteNode(Node * head, int val) {
 
-    if (!head) return;
-
-    if (head->value == val) {
-        Node * temp = head;
-        head = head->next;
-        delete temp;
-        return;
-    }
-
-    // traverse the list to find the node to delete
     Node * current = head;
-    Node * prev = head;
-    for (int i = 0; i < (val-1); i++)
-        if (i == 0)
-            
-            current = current->next;
-        else {
-            current = current->next;
-            prev = prev->next;
-        }
-     // at this point, delete current and reroute pointers
-    if (current) {  // checks for current to be valid before deleting the node
-        prev->next = current->next;
-        delete current;
-        current = nullptr;
+    Node * prev = nullptr;
+
+    for (int i = 1; i < val; i++) {
+        prev = current;
+        current = current->next;
     }
+
+    if (prev) {
+        prev->next = current->next;
+    } else {
+        head = current->next; // if deleting the head node
+    }
+    delete current;
 }
+
 
 // Function to insert a new node with a specific value after a node with a given value
 // requires a pointer to the head node, the value after which to insert, and the new value
