@@ -5,13 +5,15 @@
 #include <iostream>
 using namespace std;
 
-const int SIZE = 7;  
-
+ 
+// Define the Node structure
+// Each node contains a float value and a pointer to the next node
 struct Node {
     float value;
     Node *next;
 };
 
+// Function prototypes
 int menu();
 int choice;
 void output(Node *);
@@ -23,6 +25,7 @@ void deleteList(Node *);
 
 
 int main() {
+    const int SIZE = 7; // initial size of the linked list
     Node *head = nullptr;
     int count = 0;
     int menuNum = -1;
@@ -45,53 +48,61 @@ int main() {
         }
     }
     output(head);
+    // Menu loop
     
     while(menuNum != 0){
 
+        // display menu and get user choice
         menuNum = menu();
         switch(menuNum){
+        
             case 1: {
+                // option to add a node to the front of the list
                 int val;
                 cout << "Enter a value to add to the front of the list: ";
-                cin >> val;
+                val = choice();
                 addFront(head, val);
                 output(head);
                 break;
             }
             case 2: {
+                // option to add a node to the end of the list
                 int val;
                 cout << "Enter a value to add to the end of the list: ";
-                cin >> val;
+                val = choice();
                 addEnd(head, val);
                 output(head);
                 break;
             }
             case 3: {
+                // option to delete a node from the list
                 int val;
                 cout << "Enter a value to delete from the list: ";
-                cin >> val;
+                val = choice();
                 deleteNode(head, val);
                 output(head);
                 break;
             }
             case 4: {
+                // option to insert a node after a specific value
                 Node * current = head;
                 count = 1;
                 int afterVal, newVal;
                 cout << "Enter a value to insert after: ";
-                cin >> choice();
+                afterVal = choice();
                  while (current) {
                 cout << "[" << count++ << "] " << current->value << endl;
                 current = current->next;
                 }
 
                 cout << "Enter a new value to insert: ";
-                cin >> newVal;
+                newVal = choice();
                 insertNode(head, afterVal, newVal);
                 output(head);
                 break;
             }
             case 5: {
+                // option to delete the entire list
                 deleteList(head);
                 head = nullptr; // reset head to nullptr after deletion
                 output(head);
@@ -104,14 +115,16 @@ int main() {
                 break;
             }
             case 0:
+            // exit the program
                 cout << "Exiting program." << endl;
                 break;
             default:
+            // handle invalid menu choice
                 cout << "Invalid choice. Please try again." << endl;
         }
     }
     
-    
+    // Clean up memory before exiting
     Node * current = head;
     current = head;
     while (current) {
@@ -127,6 +140,8 @@ int main() {
     return 0;
 }
 
+// Function to output the linked list
+//requires a pointer to the head node and returns nothing
 void output(Node * hd) {
     if (!hd) {
         cout << "Empty list.\n";
@@ -141,8 +156,10 @@ void output(Node * hd) {
     cout << endl;
 }
 
+// Function to display the menu and get user choice
+// returns the user's menu choice as an integer
 int menu(){
-    int choice;
+    int option;
     cout << "Menu Options:\n"
          << "1. Add a node to the front of the list\n"
          << "2. Add a node to the end of the list\n"
@@ -152,17 +169,23 @@ int menu(){
          << "7. Display the list\n"
          << "0. Exit\n"
          << "Enter your choice: ";
-    cin >> choice;
-    return choice;
+    cin >> option;
+    return option;
 }
 
-void addFront(Node * hd, int val) {
+// Function to add a node to the front of the list
+// requires a pointer to the head node and the value to add
+// returns nothing
+void addFront(Node * head, int val) {
     Node * newNode = new Node;
     newNode->value = val;
-    newNode->next = hd;
-    hd = newNode;
+    newNode->next = head;
+    head = newNode;
 }
 
+// Function to add a node to the end of the list
+// requires a pointer to the head node and the value to add
+// returns nothing
 void addEnd(Node * hd, int val) {
     Node * newNode = new Node;
     newNode->value = val;
@@ -180,6 +203,9 @@ void addEnd(Node * hd, int val) {
     current->next = newNode;
 }
 
+// Function to delete a node with a specific value from the list
+// requires a pointer to the head node and the value to delete
+// returns nothing
 void deleteNode(Node * head, int val) {
 
     if (!head) return;
@@ -191,6 +217,7 @@ void deleteNode(Node * head, int val) {
         return;
     }
 
+    // traverse the list to find the node to delete
     Node * current = head;
     Node * prev = head;
     for (int i = 0; i < (val-1); i++)
@@ -209,6 +236,9 @@ void deleteNode(Node * head, int val) {
     }
 }
 
+// Function to insert a new node with a specific value after a node with a given value
+// requires a pointer to the head node, the value after which to insert, and the new value
+// returns nothing
 void insertNode(Node * head, int afterVal, int newVal) {
     Node * current = head;
     Node * prev = head;
@@ -228,6 +258,9 @@ void insertNode(Node * head, int afterVal, int newVal) {
     
 }
 
+// Function to delete the entire linked list
+// requires a pointer to the head node
+// returns nothing
 void deleteList(Node * head) {
     Node * current = head;
     while (current) {
@@ -238,6 +271,9 @@ void deleteList(Node * head) {
     head = nullptr;
 }
 
+// Function to get a valid integer choice from the user
+//requires no parameters
+// returns the valid integer input
 int choice(){
     int entry;
     bool valid = false;
