@@ -18,16 +18,16 @@ struct Node {
 int menu();
 int choice();
 void output(Node *);
-void addFront(Node * head, int val);
-void addEnd(Node * head, int val);
-void deleteNode(Node * head, int val);
-void insertNode(Node * head, int afterVal, int newVal);
-void deleteList(Node * head);
+void addFront(Node *&head, int val);
+void addEnd(Node *&head, int val);
+void deleteNode(Node *&head, int val);
+void insertNode(Node *&head, int afterVal, int newVal);
+void deleteList(Node *&head);
 
 
 
 int main() {
-    int count = 7;
+    int amount = 7;
     bool valid = false;
     const int SIZE = 7; // initial size of the linked list
     Node *head = nullptr;
@@ -67,7 +67,7 @@ int main() {
                 val = choice();
                 addFront(head, val);
                 output(head);
-                count++;
+                amount++;
                 break;
             }
             case 2: {
@@ -77,7 +77,7 @@ int main() {
                 val = choice();
                 addEnd(head, val);
                 output(head);
-                count++;
+                amount++;
                 break;
             }
             case 3: {
@@ -94,7 +94,7 @@ int main() {
                 valid = false;
 
                 deleteNode(head, val);
-                count--;
+                amount--;
                 output(head);
                 break;
             }
@@ -103,7 +103,7 @@ int main() {
                 Node * current = head;
                 count = 1;
                 int afterVal, newVal;
-                cout << "Enter a value to insert after other than 1: ";
+                cout << "Enter a position to insert after other than 1: ";
                 while (!valid){
                     afterVal = choice();
                     if (afterVal > 1 && afterVal <= SIZE)
@@ -122,7 +122,7 @@ int main() {
                 cout << "Enter a new value to insert: ";
                 newVal = choice();
                 insertNode(head, afterVal, newVal);
-                count++;
+                amount++;
                 output(head);
                 break;
             }
@@ -131,7 +131,7 @@ int main() {
                 deleteList(head);
                 head = nullptr; // reset head to nullptr after deletion
                 output(head);
-                count = 0;
+                amount = 0;
                 break;
             }
 
@@ -202,7 +202,7 @@ int menu(){
 // Function to add a node to the front of the list
 // requires a pointer to the head node and the value to add
 // returns nothing
-void addFront(Node * head, int val) {
+void addFront(Node *&head, int val) {
     Node * newNode = new Node;
     newNode->value = val;
     newNode->next = head;
@@ -212,17 +212,17 @@ void addFront(Node * head, int val) {
 // Function to add a node to the end of the list
 // requires a pointer to the head node and the value to add
 // returns nothing
-void addEnd(Node * hd, int val) {
+void addEnd(Node *&head, int val) {
     Node * newNode = new Node;
     newNode->value = val;
     newNode->next = nullptr;
 
-    if (!hd) { // if the list is empty, make the new node the head
-        hd = newNode;
+    if (!head) { // if the list is empty, make the new node the head
+        head = newNode;
         return;
     }
 
-    Node * current = hd;
+    Node * current = head;
     while (current->next) { // traverse to the end of the list
         current = current->next;
     }
@@ -232,12 +232,14 @@ void addEnd(Node * hd, int val) {
 // Function to delete a node with a positional value from the list
 // requires a pointer to the head node and the value to delete
 // returns nothing
-void deleteNode(Node * head, int val) {
+void deleteNode(Node *&head, int val) {
 
     Node * current = head;
     Node * prev = nullptr;
 
     for (int i = 1; i < val; i++) {
+        if(!current) return; // if val is out of bounds
+        else
         prev = current;
         current = current->next;
     }
@@ -254,7 +256,7 @@ void deleteNode(Node * head, int val) {
 // Function to insert a new node with a specific value after a node with a given value
 // requires a pointer to the head node, the value after which to insert, and the new value
 // returns nothing
-void insertNode(Node * head, int afterVal, int newVal) {
+void insertNode(Node *&head, int afterVal, int newVal) {
     Node * current = head;
     Node * prev = head;
 
@@ -276,7 +278,7 @@ void insertNode(Node * head, int afterVal, int newVal) {
 // Function to delete the entire linked list
 // requires a pointer to the head node
 // returns nothing
-void deleteList(Node * head) {
+void deleteList(Node *&head) {
     Node * current = head;
     while (current) {
         head = current->next;
