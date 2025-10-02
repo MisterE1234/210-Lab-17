@@ -133,3 +133,70 @@ void output(Node * hd) {
     cout << endl;
 }
 
+int menu(){
+    int choice;
+    cout << "Menu Options:\n"
+         << "1. Add a node to the front of the list\n"
+         << "2. Add a node to the end of the list\n"
+         << "3. Delete a node from the list\n"
+         << "4. Insert a node after a specific value\n"
+         << "5. Delete the entire list\n"
+         << "7. Display the list\n"
+         << "0. Exit\n"
+         << "Enter your choice: ";
+    cin >> choice;
+    return choice;
+}
+
+void addFront(Node * hd, int val) {
+    Node * newNode = new Node;
+    newNode->value = val;
+    newNode->next = hd;
+    hd = newNode;
+}
+
+void addEnd(Node * hd, int val) {
+    Node * newNode = new Node;
+    newNode->value = val;
+    newNode->next = nullptr;
+
+    if (!hd) {
+        hd = newNode;
+        return;
+    }
+
+    Node * current = hd;
+    while (current->next) {
+        current = current->next;
+    }
+    current->next = newNode;
+}
+
+void deleteNode(Node * head, int val) {
+
+    if (!head) return;
+
+    if (head->value == val) {
+        Node * temp = head;
+        head = head->next;
+        delete temp;
+        return;
+    }
+
+    Node * current = head;
+    Node * prev = nullptr;
+    for (int i = 0; i < (val-1); i++)
+        if (i == 0)
+            prev = current;
+            current = current->next;
+        else {
+            current = current->next;
+            prev = prev->next;
+        }
+     // at this point, delete current and reroute pointers
+    if (current) {  // checks for current to be valid before deleting the node
+        prev->next = current->next;
+        delete current;
+        current = nullptr;
+    }
+}
