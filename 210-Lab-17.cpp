@@ -3,6 +3,7 @@
 //This program demonstrates linked lists with functions.
 
 #include <iostream>
+#include <cstdlib>
 using namespace std;
 
  
@@ -17,14 +18,16 @@ struct Node {
 int menu();
 int choice();
 void output(Node *);
-void addFront(Node *, int);
-void addEnd(Node *, int);
-void deleteNode(Node *, int);
-void insertNode(Node *, int, int);
-void deleteList(Node *);
+void addFront(Node * head, int val);
+void addEnd(Node * head, int val);
+void deleteNode(Node * head, int val);
+void insertNode(Node * head, int afterVal, int newVal);
+void deleteList(Node * head);
+
 
 
 int main() {
+    bool valid = false;
     const int SIZE = 7; // initial size of the linked list
     Node *head = nullptr;
     int count = 0;
@@ -88,8 +91,15 @@ int main() {
                 Node * current = head;
                 count = 1;
                 int afterVal, newVal;
-                cout << "Enter a value to insert after: ";
-                afterVal = choice();
+                cout << "Enter a value to insert after other than 1: ";
+                while (!valid){
+                    afterVal = choice();
+                    if (afterVal > 1 && afterVal <= SIZE)
+                        valid = true;
+                    else
+                        cout << "Invalid choice. Please try again." << endl;
+                }
+                
                  while (current) {
                 cout << "[" << count++ << "] " << current->value << endl;
                 current = current->next;
@@ -135,7 +145,7 @@ int main() {
     head = nullptr;
     output(head);
 
-    delete head;
+    
 
     return 0;
 }
