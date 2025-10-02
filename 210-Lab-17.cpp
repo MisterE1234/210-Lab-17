@@ -74,9 +74,16 @@ int main() {
                 break;
             }
             case 4: {
+                Node * current = head;
+                count = 1;
                 int afterVal, newVal;
                 cout << "Enter a value to insert after: ";
                 cin >> afterVal;
+                 while (current) {
+                cout << "[" << count++ << "] " << current->value << endl;
+                current = current->next;
+                }
+
                 cout << "Enter a new value to insert: ";
                 cin >> newVal;
                 insertNode(head, afterVal, newVal);
@@ -184,10 +191,10 @@ void deleteNode(Node * head, int val) {
     }
 
     Node * current = head;
-    Node * prev = nullptr;
+    Node * prev = head;
     for (int i = 0; i < (val-1); i++)
         if (i == 0)
-            prev = current;
+            
             current = current->next;
         else {
             current = current->next;
@@ -200,3 +207,33 @@ void deleteNode(Node * head, int val) {
         current = nullptr;
     }
 }
+
+void insertNode(Node * head, int afterVal, int newVal) {
+    Node * current = head;
+    Node * prev = head;
+
+    for (int i = 0; i < (afterVal); i++)
+        if (i == 0)
+            current = current->next;
+        else {
+            current = current->next;
+            prev = prev->next;
+        }
+    //at this point, insert a node between prev and current
+    Node * newnode = new Node;
+    newnode->value = 10000;
+    newnode->next = current;
+    prev->next = newnode;
+    
+}
+
+void deleteList(Node * head) {
+    Node * current = head;
+    while (current) {
+        head = current->next;
+        delete current;
+        current = head;
+    }
+    head = nullptr;
+}
+
