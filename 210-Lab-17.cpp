@@ -86,7 +86,7 @@ int main() {
                 cout << "Enter a position to delete from the list: ";
                 while (!valid){
                     val = choice();
-                    if (val > 0 && val <= count )
+                    if (val > 0 && val <= amount )
                         valid = true;
                     else
                         cout << "Invalid choice. Please try again." << endl;
@@ -232,12 +232,12 @@ void addEnd(Node *&head, int val) {
 // Function to delete a node with a positional value from the list
 // requires a pointer to the head node and the value to delete
 // returns nothing
-void deleteNode(Node *&head, int val) {
+void deleteNode(Node *&head, int position) {
 
     Node * current = head;
     Node * prev = nullptr;
 
-    for (int i = 1; i < val; i++) {
+    for (int i = 1; i < position; i++) {
         if(!current) return; // if val is out of bounds
         else
         prev = current;
@@ -256,11 +256,12 @@ void deleteNode(Node *&head, int val) {
 // Function to insert a new node with a specific value after a node with a given value
 // requires a pointer to the head node, the value after which to insert, and the new value
 // returns nothing
-void insertNode(Node *&head, int afterVal, int newVal) {
+void insertNode(Node *&head, int position, int newVal) {
     Node * current = head;
     Node * prev = head;
 
-    for (int i = 0; i < (afterVal); i++)
+    
+    for (int i = 0; i < (position); i++)
         if (i == 0)
             current = current->next;
         else {
@@ -295,7 +296,7 @@ int choice(){
     int entry;
     bool valid = false;
     while (!valid){
-        cout << "Enter your choice: ";
+        cout << "Enter your value: ";
         cin >> entry;
         if (!cin.fail())
             valid = true;
