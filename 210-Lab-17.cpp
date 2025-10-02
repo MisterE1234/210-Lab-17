@@ -15,7 +15,7 @@ struct Node {
 
 // Function prototypes
 int menu();
-int choice;
+int choice();
 void output(Node *);
 void addFront(Node *, int);
 void addEnd(Node *, int);
@@ -191,16 +191,16 @@ void addEnd(Node * hd, int val) {
     newNode->value = val;
     newNode->next = nullptr;
 
-    if (!hd) {
+    if (!hd) { // if the list is empty, make the new node the head
         hd = newNode;
         return;
     }
 
     Node * current = hd;
-    while (current->next) {
+    while (current->next) { // traverse to the end of the list
         current = current->next;
     }
-    current->next = newNode;
+    current->next = newNode; // link the last node to the new node
 }
 
 // Function to delete a node with a specific value from the list
